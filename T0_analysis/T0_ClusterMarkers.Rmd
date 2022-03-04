@@ -1,0 +1,209 @@
+---
+title: "T0 Cluster Marker Selection"
+output: html_notebook
+---
+
+
+```{r}
+seurat_obj = readRDS('s4T0_final.rds')
+```
+
+# Cluster 1
+## Dot Plot
+```{r}
+png(paste0('cluster_figures/',Project.name,'columella_C1_DotPlot.png'), width=10, height=10, units='in', res=200)
+c1_features = c('gene:MtrunA17Chr5g0417791',
+            'gene:MtrunA17Chr5g0442771',
+            'gene:MtrunA17Chr3g0112391')
+p <- DotPlot(seurat_obj, features = c1_features) + RotatedAxis()
+print(p)
+dev.off()
+print(p)
+```
+
+```{r}
+png(paste0('cluster_figures/',Project.name,'columella_C1_VlnPlot.png'), width=16, height=8, units='in', res=200)
+p <- VlnPlot(seurat_obj, features = c1_features)
+print(p)
+dev.off()
+print(p)
+```
+## Feature Plot 
+```{r}
+#Feature_plot
+
+plot_list <- FeaturePlot(seurat_obj, features = c1_features,combine=FALSE, cols=viridis(256))
+
+# apply theme to each feature plot
+for(i in 1:length(plot_list)){
+  plot_list[[i]] <- plot_list[[i]] + umap_theme + NoLegend()
+}
+
+png(paste0('cluster_figures/',Project.name,'_columella_C1_featurePlot.png'), width=16, height=10, units='in', res=200)
+p<- CombinePlots(plot_list)
+print(p)
+dev.off()
+print(p)
+```
+# Cluster 2
+```{r}
+c2_features = c('gene:MtrunA17Chr1g0187381', 'gene:MtrunA17Chr3g0099901')
+png(paste0('cluster_figures/',Project.name,'stele_C2_VlnPlot.png'), width=16, height=10, units='in', res=200)
+p <- VlnPlot(seurat_obj, features = c2_features)
+print(p)
+dev.off()
+print(p)
+```
+## Feature Plot
+
+```{r}
+#Feature_plot
+
+plot_list <- FeaturePlot(seurat_obj, features = c2_features,combine=FALSE, cols=viridis(256))
+
+# apply theme to each feature plot
+for(i in 1:length(plot_list)){
+  plot_list[[i]] <- plot_list[[i]] + umap_theme + NoLegend()
+}
+
+png(paste0('cluster_figures/',Project.name,'_pericycle_C2_featurePlot.png'), width=16, height=10, units='in', res=200)
+p<- CombinePlots(plot_list)
+print(p)
+dev.off()
+print(p)
+```
+# Cluster 3
+## Violin plot
+```{r}
+# Two cortex markers in cluster3
+c3_features = c("gene:MtrunA17Chr5g0395431", "gene:MtrunA17Chr4g0071041" )
+png(paste0('cluster_figures/',Project.name,'Cortex_C3_VlnPlot.png'), width=16, height=10, units='in', res=200)
+p <- VlnPlot(seurat_obj, features = c3_features)
+print(p)
+dev.off()
+print(p)
+```
+```{r}
+# MtrunA17Chr4g0074561 is BGLU46, a stele marker
+# MtrunA17Chr7g0272591 is an endodermis marker
+VlnPlot(seurat_obj, features = c("gene:MtrunA17Chr4g0074561","gene:MtrunA17Chr7g0272591"))
+```
+```{r}
+#Feature_plot
+
+plot_list <- FeaturePlot(seurat_obj, features = c3_features,combine=FALSE, cols=viridis(256))
+
+# apply theme to each feature plot
+for(i in 1:length(plot_list)){
+  plot_list[[i]] <- plot_list[[i]] + umap_theme + NoLegend()
+}
+
+png(paste0('cluster_figures/',Project.name,'_cortex_C3_featurePlot.png'), width=16, height=10, units='in', res=200)
+p<- CombinePlots(plot_list)
+print(p)
+dev.off()
+print(p)
+
+```
+# Cluster4
+## Violin plot
+```{r}
+c4_features <- c("gene:MtrunA17Chr2g0322861","gene:MtrunA17Chr4g0036981")
+png(paste0('cluster_figures/',Project.name,'Endodermis_C4_VlnPlot.png'), width=16, height=10, units='in', res=200)
+p <- VlnPlot(seurat_obj,features = c4_features)
+print(p)
+dev.off()
+print(p)
+```
+
+```{r}
+# Two other testing markers
+VlnPlot(seurat_obj,features = c("gene:MtrunA17Chr4g0070011","gene:MtrunA17Chr4g0029071"))
+```
+## Feature Plot
+```{r}
+#Feature_plot
+
+plot_list <- FeaturePlot(seurat_obj, features = c4_features,combine=FALSE, cols=viridis(256))
+
+# apply theme to each feature plot
+for(i in 1:length(plot_list)){
+  plot_list[[i]] <- plot_list[[i]] + umap_theme + NoLegend()
+}
+
+png(paste0('cluster_figures/',Project.name,'_endodermis_C4_featurePlot.png'), width=16, height=10, units='in', res=200)
+p<- CombinePlots(plot_list)
+print(p)
+dev.off()
+print(p)
+
+```
+# Cluster 6
+
+```{r}
+c6_features = c('gene:MtrunA17Chr1g0200811',
+ 'gene:MtrunA17Chr4g0062921',
+ 'gene:MtrunA17Chr2g0279251',
+ 'gene:MtrunA17Chr3g0107971')
+
+png(paste0('cluster_figures/',Project.name,'Stele_C6_VlnPlot.png'), width=20, height=8, units='in', res=200)
+p <- VlnPlot(seurat_obj,features = c6_features,ncol=4)
+print(p)
+dev.off()
+print(p)
+```
+```{r}
+#Feature_plot
+
+plot_list <- FeaturePlot(seurat_obj, features = c6_features,combine=FALSE, cols=viridis(256))
+
+# apply theme to each feature plot
+for(i in 1:length(plot_list)){
+  plot_list[[i]] <- plot_list[[i]] + umap_theme + NoLegend()
+}
+
+png(paste0('cluster_figures/',Project.name,'_stele_C6_featurePlot.png'), width=16, height=10, units='in', res=200)
+p<- CombinePlots(plot_list)
+print(p)
+dev.off()
+print(p)
+```
+
+# Cluster 7
+## Dotplot
+```{r}
+png(paste0('cluster_figures/',Project.name,'Roothair_C7_DotPlot.png'), width=16, height=10, units='in', res=200)
+c7_features = c('gene:MtrunA17Chr6g0486581',
+                'gene:MtrunA17Chr6g0479311',
+                'gene:MtrunA17Chr8g0354901',
+                'gene:MtrunA17Chr4g0057091',
+                'gene:MtrunA17Chr2g0288921',
+                'gene:MtrunA17Chr2g0296621')
+p <- DotPlot(seurat_obj, features = c7_features) + RotatedAxis()
+print(p)
+dev.off()
+print(p)
+```
+## Violin plot
+```{r}
+png(paste0('cluster_figures/',Project.name,'Roothair_C7_VlnPlot.png'), width=16, height=10, units='in', res=200)
+p <- VlnPlot(seurat_obj,features = c7_features,ncol=6)
+print(p)
+dev.off()
+print(p)
+```
+## Feature Plot
+```{r}
+plot_list <- FeaturePlot(seurat_obj, features = c7_features,combine=FALSE, cols=viridis(256))
+
+# apply theme to each feature plot
+for(i in 1:length(plot_list)){
+  plot_list[[i]] <- plot_list[[i]] + umap_theme + NoLegend()
+}
+
+png(paste0('cluster_figures/',Project.name,'_Roothair_C7_featurePlot.png'), width=16, height=10, units='in', res=200)
+p<- CombinePlots(plot_list)
+print(p)
+dev.off()
+```
+

@@ -137,7 +137,7 @@ print(p)
 dev.off()
 
 #Finding differentially expressed features (cluster biomarkers)
-seurat_obj.markers <- FindAllMarkers(seurat_obj, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
+seurat_obj.markers <- FindAllMarkers(seurat_obj, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.7)
 # Find the Top3 Markers for each cluster
 Top3_markers_df <- seurat_obj.markers %>%
   group_by(cluster) %>%
@@ -188,3 +188,70 @@ png(paste0('figures/',Project.name,'_DEGs_heatmap.png'), width=10, height=10, re
 p <- DoHeatmap(seurat_obj, features=top_DEGs, group.by='seurat_clusters', label=T) + scale_fill_gradientn(colors=viridis(256)) + NoLegend()
 print(p)
 dev.off()
+
+saveRDS(seurat_obj, file = "./s4T0_final.rds")
+
+# Plot the IDed markers for clusters
+ID_Markers <- c('gene:MtrunA17Chr5g0417791',
+                'gene:MtrunA17Chr5g0442771',
+                'gene:MtrunA17Chr3g0112391',
+                'gene:MtrunA17Chr1g0187381',
+                'gene:MtrunA17Chr5g0395431',
+                'gene:MtrunA17Chr4g0071041',
+                'gene:MtrunA17Chr2g0322861',
+                'gene:MtrunA17Chr4g0036981',
+                'gene:MtrunA17Chr1g0200811',
+                'gene:MtrunA17Chr4g0062921',
+                'gene:MtrunA17Chr2g0279251',
+                'gene:MtrunA17Chr3g0107971',
+                'gene:MtrunA17Chr2g0288921',
+                'gene:MtrunA17Chr8g0354901',
+                'gene:MtrunA17Chr2g0296621',
+                'gene:MtrunA17Chr6g0486581',
+                'gene:MtrunA17Chr6g0479311',
+                'gene:MtrunA17Chr4g0057091')
+IDmarkers.labels <- c('NAC029',
+                      'ANAC042',
+                      'WAKL20',
+                      'MtrunA17Chr1g0187381',
+                      '4CL3',
+                      'MtrunA17Chr4g0071041',
+                      'PER39',
+                      'MtrunA17Chr4g0036981',
+                      'SUC2',
+                      'MtrunA17Chr4g0062921',
+                      'MtrunA17Chr2g0279251',
+                      'MtrunA17Chr3g0107971',
+                      'RHS14',
+                      'RHS12',
+                      'PER7',
+                      'ATXTH26',
+                      'MtrunA17Chr6g0479311',
+                      'ATEXP18')
+png(paste0('figures/',Project.name,'_IDed_Markers_heatmap.png'), width=10, height=10, res=600, units='in')
+p <- DoHeatmap(seurat_obj, features=ID_Markers, group.by='seurat_clusters', label=T) + scale_fill_gradientn(colors=viridis(256)) + NoLegend()+ scale_y_discrete(breaks=ID_Markers, labels=IDmarkers.labels)+theme(axis.text.y = element_text(face = "bold", size = 12))
+print(p)
+dev.off()
+print(p)
+
+
+png(paste0('figures/',Project.name,'_IDed_Markers_DotPlot.png'), width=15, height=10, res=600, units='in')
+p <- DotPlot(seurat_obj, features = ID_Markers) + RotatedAxis() + scale_x_discrete(breaks=ID_Markers, labels=IDmarkers.labels)+scale_y_discrete(breaks=c(1:7), labels=c('columella-1', 'pericycle-2', 'cortex-3', 'endodermis-4','unknown-5', 'stele-6', 'root hair-7')) + theme(axis.title.x=element_blank())+ theme(axis.title.y=element_blank())
+print(p)
+dev.off()
+print(p)
+
+
+# Assign Cell Type to Clusters
+
+png(paste0('figures/',Project.name,'_assigned_umap_clusters.png'), width=7, height=7, res=600, units='in')
+new.cluster.ids <- c('1: columella', '2: pericycle', '3: cortex', '4: endodermis','5: unknown', '6: stele', '7: root hair')
+names(new.cluster.ids) <- levels(seurat_obj)
+seurat_obj <- RenameIdents(seurat_obj, new.cluster.ids)
+p <- DimPlot(seurat_obj, reduction = "umap", label = TRUE, pt.size = 0.5) + NoLegend() + umap_theme
+print(p)
+dev.off()
+print(p)
+
+
+
