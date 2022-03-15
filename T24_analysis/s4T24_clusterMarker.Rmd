@@ -1,0 +1,543 @@
+---
+title: "T24_ClusterMarkers"
+author: "Yueyao Gao"
+date: "3/5/2022"
+output: html_document
+---
+
+# Import Seurat Object
+```{r}
+seurat_obj = readRDS('s4T24_final.rds')
+```
+# Cluster1
+```{r}
+dir.create("cluster_figures")
+png(paste0('cluster_figures/',Project.name,'NoduleMeristem_C1_DotPlot.png'), width=10, height=10, units='in', res=200)
+c1_features = c('gene:MtrunA17Chr6g0451281', 'gene:MtrunA17Chr4g0000131','gene:MtrunA17Chr1g0164011','gene:MtrunA17Chr1g0179151', 'gene:MtrunA17Chr4g0020571',
+ 'gene:MtrunA17Chr3g0077511',
+ 'gene:MtrunA17Chr4g0030021',
+ 'gene:MtrunA17Chr4g0035841')
+p <- DotPlot(seurat_obj, features = c1_features) + RotatedAxis()
+print(p)
+dev.off()
+print(p)
+```
+# Feature Plot
+```{r}
+plot_list <- FeaturePlot(seurat_obj, features = c1_features,combine=FALSE, cols=viridis(256))
+# apply theme to each feature plot
+for(i in 1:length(plot_list)){
+  plot_list[[i]] <- plot_list[[i]] + umap_theme + NoLegend()
+}
+png(paste0('cluster_figures/',Project.name,'_NoduleMeristem_C1_featurePlot.png'), width=16, height=10, units='in', res=200)
+p<- CombinePlots(plot_list)
+print(p)
+dev.off()
+print(p)
+```
+## genes in Roux et al. 2014 cluster 1 
+```{r}
+png(paste0('cluster_figures/',Project.name,'_NoduleMeristem_C1_FI1_VlnPlot.png'), width=16, height=10, units='in', res=200)
+p <- VlnPlot(seurat_obj, features = c('gene:MtrunA17Chr6g0451281', 'gene:MtrunA17Chr4g0000131'))
+print(p)
+dev.off()
+print(p)
+```
+## genes in Roux et al. 2014 cluster 2
+```{r}
+png(paste0('cluster_figures/',Project.name,'_NoduleMeristem_C1_FI2_VlnPlot.png'), width=16, height=10, units='in', res=200)
+p <- VlnPlot(seurat_obj, features = c('gene:MtrunA17Chr1g0164011','gene:MtrunA17Chr1g0179151', 'gene:MtrunA17Chr4g0020571'))
+print(p)
+dev.off()
+print(p)
+
+```
+
+```{r}
+png(paste0('cluster_figures/',Project.name,'_NoduleMeristem_C1_FI5_VlnPlot.png'), width=16, height=10, units='in', res=200)
+p <- VlnPlot(seurat_obj, features = c( 'gene:MtrunA17Chr3g0077511',
+ 'gene:MtrunA17Chr4g0030021',
+ 'gene:MtrunA17Chr4g0035841'))
+print(p)
+dev.off()
+print(p)
+```
+# Cluster 2
+```{r}
+# Two Stele genes
+VlnPlot(seurat_obj, features = c('gene:MtrunA17Chr4g0028201', 'gene:MtrunA17Chr1g0178931'))
+```
+```{r}
+c2_nodule_features = c('gene:MtrunA17Chr8g0361551',
+ 'gene:MtrunA17Chr1g0180541',
+ 'gene:MtrunA17Chr5g0438071',
+ 'gene:MtrunA17Chr2g0293481',
+ 'gene:MtrunA17Chr7g0262231',
+ 'gene:MtrunA17Chr4g0063141',
+ 'gene:MtrunA17Chr8g0379461',
+ 'gene:MtrunA17Chr6g0482231',
+ 'gene:MtrunA17Chr4g0055471')
+png(paste0('cluster_figures/',Project.name,'NoduleMeristem_C2_DotPlot.png'), width=14, height=10, units='in', res=200)
+p <- DotPlot(seurat_obj, features = c2_nodule_features) + RotatedAxis()
+print(p)
+dev.off()
+print(p)
+```
+```{r}
+# Two FI cluster 1 genes
+png(paste0('cluster_figures/',Project.name,'_NoduleMeristem_C2_FI1_VlnPlot.png'), width=16, height=10, units='in', res=200)
+p <- VlnPlot(seurat_obj, features = c('gene:MtrunA17Chr8g0361551', 'gene:MtrunA17Chr1g0180541'))
+print(p)
+dev.off()
+print(p)
+```
+```{r}
+# Two FI cluster 2 genes
+png(paste0('cluster_figures/',Project.name,'_NoduleMeristem_C2_FI2_DotPlot.png'), width=12, height=10, units='in', res=200)
+p <- DotPlot(seurat_obj, features = c('gene:MtrunA17Chr5g0438071',
+ 'gene:MtrunA17Chr2g0293481',
+ 'gene:MtrunA17Chr7g0262231',
+ 'gene:MtrunA17Chr4g0063141',
+ 'gene:MtrunA17Chr8g0379461')) + RotatedAxis()
+print(p)
+dev.off()
+print(p)
+```
+```{r}
+# FI-cluster4 and FI-cluster5
+png(paste0('cluster_figures/',Project.name,'_NoduleMeristem_C2_FI5_VlnPlot.png'), width=12, height=10, units='in', res=200)
+p <- VlnPlot(seurat_obj, features = c('gene:MtrunA17Chr6g0482231', 'gene:MtrunA17Chr4g0055471'))
+print(p)
+dev.off()
+print(p)
+```
+## Feature Plot 
+```{r}
+plot_list <- FeaturePlot(seurat_obj, features = c2_nodule_features,combine=FALSE, cols=viridis(256))
+# apply theme to each feature plot
+for(i in 1:length(plot_list)){
+  plot_list[[i]] <- plot_list[[i]] + umap_theme + NoLegend()
+}
+png(paste0('cluster_figures/',Project.name,'_NoduleMeristem_C2_featurePlot.png'), width=16, height=10, units='in', res=200)
+p<- CombinePlots(plot_list)
+print(p)
+dev.off()
+print(p)
+```
+# Cluster3
+```{r}
+png(paste0('cluster_figures/',Project.name,'_Pericycle_C3_VlnPlot.png'), width=10, height=10, units='in', res=200)
+p <- VlnPlot(seurat_obj, features = c('gene:MtrunA17Chr1g0187381','gene:MtrunA17Chr4g0030881'))
+print(p)
+dev.off()
+print(p)
+```
+```{r}
+plot_list <- FeaturePlot(seurat_obj, features = c('gene:MtrunA17Chr1g0187381','gene:MtrunA17Chr4g0030881'),combine=FALSE, cols=viridis(256))
+# apply theme to each feature plot
+for(i in 1:length(plot_list)){
+  plot_list[[i]] <- plot_list[[i]] + umap_theme + NoLegend()
+}
+png(paste0('cluster_figures/',Project.name,'_Pericycle_C3_featurePlot.png'), width=16, height=10, units='in', res=200)
+p<- CombinePlots(plot_list)
+print(p)
+dev.off()
+print(p)
+```
+```{r}
+features_3_nod <- c('gene:MtrunA17Chr4g0005101',
+ 'gene:MtrunA17Chr3g0105521',
+ 'gene:MtrunA17Chr8g0381741',
+ 'gene:MtrunA17Chr1g0163931',
+ 'gene:MtrunA17Chr4g0021641',
+ 'gene:MtrunA17Chr7g0239061',
+ 'gene:MtrunA17Chr1g0206601',
+ 'gene:MtrunA17Chr2g0282211',
+ 'gene:MtrunA17Chr8g0342201')
+
+DotPlot(seurat_obj, features = features_3_nod) + RotatedAxis()
+```
+
+```{r}
+VlnPlot(seurat_obj, features = c('gene:MtrunA17Chr3g0099901','gene:MtrunA17Chr4g0074561'))
+
+```
+
+```{r}
+VlnPlot(seurat_obj, features = c('gene:MtrunA17Chr4g0028201', 'gene:MtrunA17Chr1g0178931'))
+```
+```{r}
+VlnPlot(seurat_obj, features = c('gene:MtrunA17Chr1g0187381','gene:MtrunA17Chr4g0030881'))
+```
+
+```{r}
+c5.features = c('gene:MtrunA17Chr1g0187761',
+ 'gene:MtrunA17Chr2g0294381',
+ 'gene:MtrunA17Chr6g0454951',
+ 'gene:MtrunA17Chr3g0081341',
+ 'gene:MtrunA17Chr8g0378931',
+ 'gene:MtrunA17Chr7g0240991',
+ 'gene:MtrunA17Chr6g0450211',
+ 'gene:MtrunA17Chr4g0046341',
+ 'gene:MtrunA17Chr8g0344151',
+ 'gene:MtrunA17Chr8g0358821',
+ 'gene:MtrunA17Chr4g0044361',
+ 'gene:MtrunA17Chr3g0121001',
+ 'gene:MtrunA17Chr7g0245631',
+ 'gene:MtrunA17Chr2g0288871',
+ 'gene:MtrunA17Chr2g0332241',
+ 'gene:MtrunA17Chr4g0001361')
+
+DotPlot(seurat_obj, features = c5.features) + RotatedAxis()
+
+```
+```{r}
+png(paste0('cluster_figures/T24_NodFI_C1_DotPlot.png'), width=16, height=10, units='in', res=200)
+c1.features = c('gene:MtrunA17Chr6g0451281',
+ 'gene:MtrunA17Chr4g0000131',
+ 'gene:MtrunA17Chr4g0020571',
+ 'gene:MtrunA17Chr1g0179151',
+ 'gene:MtrunA17Chr1g0164011')
+
+p <- DotPlot(seurat_obj, features = c1.features) + RotatedAxis()
+print(p)
+dev.off()
+print(p)
+```
+# Cluster 1
+```{r}
+png(paste0('cluster_figures/T24_Cortex_C1_VlnPlot.png'), width=16, height=10, units='in', res=200)
+p <- VlnPlot(seurat_obj, features = c('gene:MtrunA17Chr3g0099901', 'gene:MtrunA17Chr4g0074561'))
+print(p)
+dev.off()
+print(p)
+```
+```{r}
+png(paste0('cluster_figures/T24_Stele_C2_VlnPlot.png'), width=16, height=10, units='in', res=200)
+p <- VlnPlot(seurat_obj, features = c('gene:MtrunA17Chr4g0028201', 'gene:MtrunA17Chr1g0178931','gene:MtrunA17Chr3g0112391'),ncol = 3)
+print(p)
+dev.off()
+print(p)
+```
+
+
+
+```{r}
+png(paste0('cluster_figures/NoduleInduced_C1_VlnPlot.png'), width=10, height=10, units='in', res=200)
+p <- VlnPlot(seurat_obj, features = c('gene:MtrunA17Chr4g0050881'))
+print(p)
+dev.off()
+print(p)
+```
+## Feature Plot: Nodule related genes in cluster 1 
+```{r}
+
+c1.related <- c(
+  'gene:MtrunA17Chr3g0099901', 'gene:MtrunA17Chr4g0074561',
+  'gene:MtrunA17Chr6g0451281',
+ 'gene:MtrunA17Chr4g0000131',
+ 'gene:MtrunA17Chr4g0020571',
+ 'gene:MtrunA17Chr1g0179151',
+ 'gene:MtrunA17Chr1g0164011',
+ 'gene:MtrunA17Chr4g0050881')
+
+plot_list <- FeaturePlot(seurat_obj, features = c1.related,combine=FALSE, cols=viridis(256))
+# apply theme to each feature plot
+for(i in 1:length(plot_list)){
+  plot_list[[i]] <- plot_list[[i]] + umap_theme + NoLegend()
+}
+png(paste0('cluster_figures/allknownMarkers_C1_featurePlot.png'), width=16, height=10, units='in', res=200)
+p<- CombinePlots(plot_list)
+print(p)
+dev.off()
+print(p)
+
+
+```
+```{r}
+c1.annoed.features <- c("gene:MtrunA17Chr4g0056431","gene:MtrunA17Chr3g0110971","gene:MtrunA17Chr8g0343021")
+
+png(paste0('cluster_figures/Annoed_C1_VlnPlot.png'), width=25, height=10, units='in', res=200)
+p <- VlnPlot(seurat_obj, features = c1.annoed.features ,ncol = 3)
+print(p)
+dev.off()
+print(p)
+```
+
+
+
+## Cluster 2 Markers from At analysis
+```{r}
+c2.At.features <- c('gene:MtrunA17Chr4g0028201','gene:MtrunA17Chr1g0178931','gene:MtrunA17Chr3g0112391','gene:MtrunA17Chr6g0452171')
+
+png(paste0('cluster_figures/AtMarkers_C2_VlnPlot.png'), width=25, height=10, units='in', res=200)
+p <- VlnPlot(seurat_obj, features = c2.At.features,ncol = 4)
+print(p)
+dev.off()
+print(p)
+```
+## Nodule Meristem Markers 
+```{r}
+c2.FI1.features <- c('gene:MtrunA17Chr1g0180541',
+ 'gene:MtrunA17Chr8g0361551',
+ 'gene:MtrunA17Chr3g0112391')
+
+png(paste0('cluster_figures/T24_FI1markers_C2_VlnPlot.png'), width=25, height=10, units='in', res=200)
+p <- VlnPlot(seurat_obj, features = c2.FI1.features,ncol = 3)
+print(p)
+dev.off()
+print(p)
+```
+```{r}
+c2.FI2.features <- c('gene:MtrunA17Chr4g0063141',
+ 'gene:MtrunA17Chr5g0438071',
+ 'gene:MtrunA17Chr2g0293481',
+ 'gene:MtrunA17Chr8g0379461',
+ 'gene:MtrunA17Chr7g0262231')
+
+png(paste0('cluster_figures/T24_FI2markers_C2_VlnPlot.png'), width=25, height=10, units='in', res=200)
+p <- VlnPlot(seurat_obj, features = c2.FI2.features,ncol = 5)
+print(p)
+dev.off()
+print(p)
+```
+
+```{r}
+c2.annoed.features <- c('gene:MtrunA17Chr8g0379461','gene:MtrunA17Chr1g0155781','gene:MtrunA17Chr4g0056621')
+png(paste0('cluster_figures/T24_AnnoedMarkers_C2_VlnPlot.png'), width=25, height=10, units='in', res=200)
+p <- VlnPlot(seurat_obj, features = c2.annoed.features,ncol = 3)
+print(p)
+dev.off()
+print(p)
+```
+
+```{r}
+c3.At.features <- c('gene:MtrunA17Chr1g0187381','gene:MtrunA17Chr1g0187381')
+png(paste0('cluster_figures/T24_AnnoedMarkers_C3_VlnPlot.png'), width=25, height=10, units='in', res=200)
+p <- VlnPlot(seurat_obj, features = c3.At.features,ncol = 2)
+print(p)
+dev.off()
+print(p)
+```
+```{r}
+c3.nb.features<- c('gene:MtrunA17Chr3g0105521',
+ 'gene:MtrunA17Chr1g0163631',
+ 'gene:MtrunA17Chr3g0105481',
+ 'gene:MtrunA17Chr3g0107181',
+ 'gene:MtrunA17Chr4g0048421',
+ 'gene:MtrunA17Chr8g0342201',
+ 'gene:MtrunA17Chr3g0108171',
+ 'gene:MtrunA17Chr1g0163931',
+ 'gene:MtrunA17Chr4g0005101',
+ 'gene:MtrunA17Chr3g0102281',
+ 'gene:MtrunA17Chr3g0085801')
+
+
+plot_list <- FeaturePlot(seurat_obj, features = c3.nb.features,combine=FALSE, cols=viridis(256))
+# apply theme to each feature plot
+for(i in 1:length(plot_list)){
+  plot_list[[i]] <- plot_list[[i]] + umap_theme + NoLegend()
+}
+png(paste0('cluster_figures/NBLRR_C3_featurePlot.png'), width=16, height=10, units='in', res=200)
+p<- CombinePlots(plot_list)
+print(p)
+dev.off()
+print(p)
+
+```
+
+```{r}
+c4.At.features <- c('gene:MtrunA17Chr2g0322861','gene:MtrunA17Chr4g0070011','gene:MtrunA17Chr4g0036981')
+
+png(paste0('cluster_figures/T24_AtMarkers_C4_VlnPlot.png'), width=25, height=10, units='in', res=200)
+p <- VlnPlot(seurat_obj, features = c4.At.features,ncol = 3)
+print(p)
+dev.off()
+print(p)
+
+```
+```{r}
+c4.anno.features <- c('gene:MtrunA17Chr2g0322861',
+ 'gene:MtrunA17Chr2g0318931',
+ 'gene:MtrunA17Chr5g0428261',
+ 'gene:MtrunA17Chr4g0070011')
+
+plot_list <- FeaturePlot(seurat_obj, features = c4.anno.features,combine=FALSE, cols=viridis(256))
+# apply theme to each feature plot
+for(i in 1:length(plot_list)){
+  plot_list[[i]] <- plot_list[[i]] + umap_theme + NoLegend()
+}
+png(paste0('cluster_figures/Annoed_C4_featurePlot.png'), width=16, height=10, units='in', res=200)
+p<- CombinePlots(plot_list)
+print(p)
+dev.off()
+print(p)
+```
+```{r}
+c5.At.features <- c(
+ 'gene:MtrunA17Chr1g0181091',
+ 'gene:MtrunA17Chr6g0487571',
+ 'gene:MtrunA17Chr1g0153781')
+
+png(paste0('cluster_figures/T24_AtMarkers_C5_VlnPlot.png'), width=25, height=10, units='in', res=200)
+p <- VlnPlot(seurat_obj, features = c5.At.features,ncol = 3)
+print(p)
+dev.off()
+print(p)
+```
+
+```{r}
+c5.FI1.features <- c(
+ 'gene:MtrunA17Chr4g0044361',
+ 'gene:MtrunA17Chr2g0288871',
+ 'gene:MtrunA17Chr4g0001361',
+ 'gene:MtrunA17Chr3g0081341',
+ 'gene:MtrunA17Chr7g0240991')
+
+png(paste0('cluster_figures/T24_FI1Markers_C5_VlnPlot.png'), width=25, height=10, units='in', res=200)
+p <- VlnPlot(seurat_obj, features = c5.FI1.features,ncol = 5)
+print(p)
+dev.off()
+print(p)
+```
+
+```{r}
+c5.FI2.features <- c(
+ 'gene:MtrunA17Chr8g0358821',
+ 'gene:MtrunA17Chr7g0245631',
+ 'gene:MtrunA17Chr6g0450211',
+ 'gene:MtrunA17Chr6g0454951',
+ 'gene:MtrunA17Chr3g0121001',
+ 'gene:MtrunA17Chr1g0187761',
+ 'gene:MtrunA17Chr4g0046341',
+ 'gene:MtrunA17Chr8g0378931',
+ 'gene:MtrunA17Chr2g0294381',
+ 'gene:MtrunA17Chr8g0344151',
+ 'gene:MtrunA17Chr2g0332241')
+
+png(paste0('cluster_figures/T24_FI2Markers_C5_VlnPlot.png'), width=55, height=10, units='in', res=200)
+p <- VlnPlot(seurat_obj, features = c5.FI2.features,ncol = 11)
+print(p)
+dev.off()
+print(p)
+```
+
+
+```{r}
+plot_list <- FeaturePlot(seurat_obj, features = c5.FI1.features,combine=FALSE, cols=viridis(256))
+# apply theme to each feature plot
+for(i in 1:length(plot_list)){
+  plot_list[[i]] <- plot_list[[i]] + umap_theme + NoLegend()
+}
+png(paste0('cluster_figures/FI1_C5_featurePlot.png'), width=16, height=10, units='in', res=200)
+p<- CombinePlots(plot_list)
+print(p)
+dev.off()
+print(p)
+```
+
+
+```{r}
+plot_list <- FeaturePlot(seurat_obj, features = c5.FI2.features,combine=FALSE, cols=viridis(256))
+# apply theme to each feature plot
+for(i in 1:length(plot_list)){
+  plot_list[[i]] <- plot_list[[i]] + umap_theme + NoLegend()
+}
+png(paste0('cluster_figures/FI2_C5_featurePlot.png'), width=16, height=10, units='in', res=200)
+p<- CombinePlots(plot_list)
+print(p)
+dev.off()
+print(p)
+```
+
+
+```{r}
+c6.At.features <- c('gene:MtrunA17Chr2g0301511',
+ 'gene:MtrunA17Chr1g0187521',
+ 'gene:MtrunA17Chr4g0038131',
+ 'gene:MtrunA17Chr2g0296621')
+
+png(paste0('cluster_figures/T24_AtMarkers_C6_VlnPlot.png'), width=25, height=10, units='in', res=200)
+p <- VlnPlot(seurat_obj, features = c6.At.features,ncol = 4)
+print(p)
+dev.off()
+print(p)
+```
+```{r}
+plot_list <- FeaturePlot(seurat_obj, features = c6.At.features,combine=FALSE, cols=viridis(256))
+# apply theme to each feature plot
+for(i in 1:length(plot_list)){
+  plot_list[[i]] <- plot_list[[i]] + umap_theme + NoLegend()
+}
+png(paste0('cluster_figures/T24_Roothair_C6_featurePlot.png'), width=16, height=10, units='in', res=200)
+p<- CombinePlots(plot_list)
+print(p)
+dev.off()
+print(p)
+```
+```{r}
+IDed.markers <- c('gene:MtrunA17Chr3g0099901',
+ 'gene:MtrunA17Chr4g0074561',
+ 'gene:MtrunA17Chr6g0451281',
+ 'gene:MtrunA17Chr4g0000131',
+ 'gene:MtrunA17Chr4g0020571',
+ 'gene:MtrunA17Chr1g0179151',
+ 'gene:MtrunA17Chr1g0164011',
+ 'gene:MtrunA17Chr4g0050881',
+ 'gene:MtrunA17Chr4g0056431',
+ 'gene:MtrunA17Chr3g0110971',
+ 'gene:MtrunA17Chr8g0343021',
+ 'gene:MtrunA17Chr4g0028201',
+ 'gene:MtrunA17Chr1g0178931',
+ 'gene:MtrunA17Chr3g0112391',
+ 'gene:MtrunA17Chr8g0361551',
+ 'gene:MtrunA17Chr1g0180541',
+ 'gene:MtrunA17Chr7g0262231',
+ 'gene:MtrunA17Chr2g0293481',
+ 'gene:MtrunA17Chr4g0063141',
+ 'gene:MtrunA17Chr8g0379461',
+ 'gene:MtrunA17Chr5g0438071',
+ 'gene:MtrunA17Chr1g0187381',
+ 'gene:MtrunA17Chr2g0322861',
+ 'gene:MtrunA17Chr4g0036981',
+ 'gene:MtrunA17Chr4g0070011',
+ 'gene:MtrunA17Chr4g0044361',
+ 'gene:MtrunA17Chr2g0288871',
+ 'gene:MtrunA17Chr4g0001361',
+ 'gene:MtrunA17Chr3g0081341',
+ 'gene:MtrunA17Chr7g0240991',
+ 'gene:MtrunA17Chr8g0358821',
+ 'gene:MtrunA17Chr7g0245631',
+ 'gene:MtrunA17Chr6g0450211',
+ 'gene:MtrunA17Chr6g0454951',
+ 'gene:MtrunA17Chr3g0121001',
+ 'gene:MtrunA17Chr1g0187761',
+ 'gene:MtrunA17Chr4g0046341',
+ 'gene:MtrunA17Chr8g0378931',
+ 'gene:MtrunA17Chr2g0294381',
+ 'gene:MtrunA17Chr8g0344151',
+ 'gene:MtrunA17Chr2g0332241',
+ 'gene:MtrunA17Chr2g0301511',
+ 'gene:MtrunA17Chr1g0187521',
+ 'gene:MtrunA17Chr4g0038131',
+ 'gene:MtrunA17Chr2g0296621')
+```
+
+
+```{r}
+png(paste0('figures/T24_IDedMarkers_Dotplot.png'), width=30, height=10, units='in', res=200)
+p <- DotPlot(seurat_obj, features = IDed.markers) + RotatedAxis() + scale_y_discrete(breaks=c(1:6), labels=c('Stele-1', 'Unknown-2', 'Pericycle-3', 'Endodermis-4','Nodule Meristem-5', 'Root Hair-6')) +  theme(axis.title.y=element_blank())
+print(p)
+dev.off()
+print(p)
+```
+
+
+
+
+
+
+
+
+
+

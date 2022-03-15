@@ -137,7 +137,7 @@ print(p)
 dev.off()
 
 #Finding differentially expressed features (cluster biomarkers)
-seurat_obj.markers <- FindAllMarkers(seurat_obj, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
+seurat_obj.markers <- FindAllMarkers(seurat_obj, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.7)
 # Find the Top3 Markers for each cluster
 Top3_markers_df <- seurat_obj.markers %>%
   group_by(cluster) %>%
@@ -188,3 +188,22 @@ png(paste0('figures/',Project.name,'_DEGs_heatmap.png'), width=10, height=10, re
 p <- DoHeatmap(seurat_obj, features=top_DEGs, group.by='seurat_clusters', label=T) + scale_fill_gradientn(colors=viridis(256)) + NoLegend()
 print(p)
 dev.off()
+
+saveRDS(seurat_obj, file = "./s4T24_final.rds")
+
+
+
+# Assign Cell Type to Clusters
+
+png(paste0('figures/',Project.name,'_assigned_umap_clusters.png'), width=7, height=7, res=600, units='in')
+new.cluster.ids <- c('1: Stele', '2: Unknown', '3: Pericycle', '4: Endodermis','5: Nodule Meristem', '6: Root Hair')
+names(new.cluster.ids) <- levels(seurat_obj)
+seurat_obj <- RenameIdents(seurat_obj, new.cluster.ids)
+p <- DimPlot(seurat_obj, reduction = "umap", label = TRUE, pt.size = 0.5) + NoLegend() + umap_theme
+print(p)
+dev.off()
+print(p)
+
+
+
+
