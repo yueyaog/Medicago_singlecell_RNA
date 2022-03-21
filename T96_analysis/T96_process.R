@@ -98,7 +98,7 @@ dev.off()
 
 # Cluster the cells
 seurat_obj <- FindNeighbors(seurat_obj, dims = 1:10)
-seurat_obj <- FindClusters(seurat_obj, resolution = 0.225)
+seurat_obj <- FindClusters(seurat_obj, resolution = 0.3)
 
 seurat_obj <- RunUMAP(seurat_obj, dims = 1:10)
 
@@ -137,7 +137,7 @@ print(p)
 dev.off()
 
 #Finding differentially expressed features (cluster biomarkers)
-seurat_obj.markers <- FindAllMarkers(seurat_obj, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
+seurat_obj.markers <- FindAllMarkers(seurat_obj, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.7)
 # Find the Top3 Markers for each cluster
 Top3_markers_df <- seurat_obj.markers %>%
   group_by(cluster) %>%
@@ -188,3 +188,5 @@ png(paste0('figures/',Project.name,'_DEGs_heatmap.png'), width=10, height=10, re
 p <- DoHeatmap(seurat_obj, features=top_DEGs, group.by='seurat_clusters', label=T) + scale_fill_gradientn(colors=viridis(256)) + NoLegend()
 print(p)
 dev.off()
+
+saveRDS(seurat_obj, file = "./s4T96_final.rds")
